@@ -1,0 +1,323 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Quicksand', sans-serif;
+  overflow: hidden;
+  background: #2c1e14;
+  /* Warm dark brown background */
+}
+
+canvas {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* Smell particles effect */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 230, 0, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* HUD Container */
+.hud-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* Top HUD Bar */
+.top-hud {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: linear-gradient(180deg, rgba(255, 204, 0, 0.2) 0%, transparent 100%);
+  border-bottom: 3px solid #ffcc00;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  z-index: 1000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.game-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 28px;
+  color: #ffcc00;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0px #8b4513, 0 0 15px rgba(255, 204, 0, 0.6);
+}
+
+.stats-display {
+  display: flex;
+  gap: 30px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(139, 69, 19, 0.4);
+  padding: 5px 15px;
+  border-radius: 15px;
+  border: 1px solid #ffcc00;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #ffcc00;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.stat-value {
+  font-family: 'Fredoka One', cursive;
+  font-size: 20px;
+  color: #fff;
+  text-shadow: 1px 1px 2px #000;
+}
+
+/* Control Panel - Cheese Style */
+.control-panel {
+  position: fixed;
+  top: 90px;
+  right: 20px;
+  background: #ffcc00;
+  border-radius: 20px;
+  padding: 0;
+  min-width: 300px;
+  border: 4px solid #e6b800;
+  box-shadow: 8px 8px 0px #8b4513, 0 0 30px rgba(255, 204, 0, 0.3);
+  z-index: 1000;
+  pointer-events: auto;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.control-panel.minimized {
+  transform: translateX(calc(100% - 20px));
+}
+
+.panel-toggle-btn {
+  position: absolute;
+  left: -50px;
+  top: 20px;
+  width: 50px;
+  height: 50px;
+  background: #ffcc00;
+  color: #8b4513;
+  border: 4px solid #e6b800;
+  border-right: none;
+  border-radius: 15px 0 0 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  box-shadow: -5px 5px 0px #8b4513;
+}
+
+.panel-header {
+  background: #e6b800;
+  padding: 15px 20px;
+  border-radius: 15px 15px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.panel-icon {
+  font-size: 24px;
+}
+
+.panel-title {
+  font-family: 'Fredoka One', cursive;
+  color: #8b4513;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.panel-body {
+  padding: 20px;
+}
+
+/* Slider Container */
+.slider-container {
+  margin-bottom: 25px;
+}
+
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  color: #8b4513;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.slider-value {
+  background: #8b4513;
+  color: #ffcc00;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-weight: 700;
+  min-width: 45px;
+  text-align: center;
+}
+
+/* Custom Slider */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 10px;
+  background: #e6b800;
+  border-radius: 5px;
+  outline: none;
+}
+
+.game-select {
+  width: 100%;
+  background: #8b4513;
+  color: #ffcc00;
+  border: 3px solid #e6b800;
+  padding: 8px;
+  border-radius: 12px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffcc00' stroke='none'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+}
+
+.game-select:hover {
+  background-color: #5d2e0d;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  background: #8b4513;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid #ffcc00;
+}
+
+/* Status Display */
+.status-display {
+  background: rgba(139, 69, 19, 0.1);
+  border: 2px dashed #8b4513;
+  border-radius: 15px;
+  padding: 12px;
+  margin-top: 15px;
+}
+
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.status-label {
+  font-size: 12px;
+  color: #8b4513;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.status-value {
+  font-weight: 800;
+  color: #8b4513;
+}
+
+.status-value.active {
+  color: #2d5a27;
+}
+
+.status-value.flee {
+  color: #a52a2a;
+}
+
+/* Controls Panel */
+.controls-panel {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: #ffcc00;
+  border: 4px solid #8b4513;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 5px 5px 0px #8b4513;
+  z-index: 1000;
+}
+
+.control-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  color: #8b4513;
+  font-weight: 700;
+}
+
+.key-badge {
+  background: #8b4513;
+  color: #ffcc00;
+  padding: 5px 12px;
+  border-radius: 10px;
+  margin-right: 12px;
+  font-family: 'Fredoka One', cursive;
+}
+
+/* Smell animation */
+@keyframes odore {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.smell-wave {
+  position: absolute;
+  border: 2px solid #ffcc00;
+  border-radius: 50%;
+  animation: odore 2s infinite;
+  pointer-events: none;
+}
